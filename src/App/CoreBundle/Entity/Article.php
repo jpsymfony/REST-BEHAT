@@ -3,6 +3,7 @@
 namespace App\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
@@ -40,6 +41,12 @@ class Article
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
+
+        /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(length=255, unique=true)
+     */
+    private $slug;
 
 
     /**
@@ -99,5 +106,41 @@ class Article
     {
         return $this->description;
     }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    function getCategory()
+    {
+        return $this->category;
+    }
+
+    function setCategory(Category $category)
+    {
+        $this->category = $category;
+    }
+
+
 }
 
