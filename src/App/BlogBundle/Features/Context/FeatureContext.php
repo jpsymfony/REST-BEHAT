@@ -2,13 +2,12 @@
 
 namespace App\BlogBundle\Features\Context;
 
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
+use App\CoreBundle\Features\Context\CoreContext;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext extends BaseMinkContext implements SnippetAcceptingContext
+class FeatureContext extends CoreContext
 {
     /**
      * Initializes context.
