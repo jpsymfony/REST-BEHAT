@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Category
+ * Article
  *
- * @ORM\Table(name="category")
- * @ORM\Entity(repositoryClass="App\CoreBundle\Repository\CategoryRepository")
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="App\CoreBundle\Repository\ArticleRepository")
  */
-class Category
+class Article
 {
-
     /**
      * @var integer
      *
@@ -23,10 +22,11 @@ class Category
      */
     private $id;
     
-     /**
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    protected $articles;
+    protected $category;
 
     /**
      * @var string
@@ -36,6 +36,13 @@ class Category
     private $title;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
+
+        /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=255, unique=true)
      */
@@ -57,7 +64,7 @@ class Category
      *
      * @param string $title
      *
-     * @return Category
+     * @return Article
      */
     public function setTitle($title)
     {
@@ -77,11 +84,35 @@ class Category
     }
 
     /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Article
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
      *
-     * @return Category
+     * @return Article
      */
     public function setSlug($slug)
     {
@@ -99,4 +130,17 @@ class Category
     {
         return $this->slug;
     }
+
+    function getCategory()
+    {
+        return $this->category;
+    }
+
+    function setCategory(Category $category)
+    {
+        $this->category = $category;
+    }
+
+
 }
+
