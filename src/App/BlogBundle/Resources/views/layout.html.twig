@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="header">
+            <ul class="nav nav-pills pull-right">
+                <li class="active"><a href="{{ path('homepage') }}">Accueil</a></li>
+                <li><a href="{#{{ path('genres') }}#}">Catégories</a></li>
+                <li><a href="{#{{ path('search') }}#}">Recherche</a></li>
+                {#{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li><a href="{{ path('auth_logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ path('auth_login') }}">Login</a></li>
+                    <li><a href="{{ path('auth_signup') }}">Sign Up</a></li>
+                {% endif %}#}
+            </ul>
+            <h3 class="text-muted"><a href="{{ path('homepage') }}">REST-BEHAT</a></h3>
+        </div>
+
+        <div class="marketing">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="footer">
+            <p>jpSymfony & optimusThePrime 2015</p>
+        </div>
+    </div>
+{% endblock %}
