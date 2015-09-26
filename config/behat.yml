@@ -14,6 +14,12 @@ default:
         bo_user:
             type: symfony_bundle
             bundle: 'AppUserBundle'
+        blog:
+            type: symfony_bundle
+            bundle: 'AppBlogBundle'
+        core:
+            type: symfony_bundle
+            bundle: 'AppCoreBundle'
             
 dev:
     extensions:
