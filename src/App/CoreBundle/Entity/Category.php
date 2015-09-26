@@ -13,6 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Category
 {
+
     /**
      * @var integer
      *
