@@ -1,0 +1,31 @@
+default:
+    autoload: src/
+    extensions:
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            base_url: http://rest-behat.local
+            sessions:
+                my_session:
+                    selenium2: ~
+    suites:
+        bo:
+            type: symfony_bundle
+            bundle: 'AppBackBundle'
+        bo-user:
+            type: symfony_bundle
+            bundle: 'AppUserBundle'
+            
+dev:
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://rest-behat.dev
+            
+preprod:
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://rest-behat.preprod
+            
+prod:
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://rest-behat.fr       
