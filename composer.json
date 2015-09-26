@@ -18,9 +18,11 @@
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "stof/doctrine-extensions-bundle": "dev-master"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
         "sensio/generator-bundle": "~2.3",
         "phpunit/phpunit": "4.8.*",
         "behat/behat": "~3.0",
