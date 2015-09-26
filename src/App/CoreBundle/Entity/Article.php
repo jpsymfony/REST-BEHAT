@@ -3,17 +3,15 @@
 namespace App\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Category
+ * Article
  *
- * @ORM\Table(name="category")
- * @ORM\Entity(repositoryClass="App\CoreBundle\Repository\CategoryRepository")
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="App\CoreBundle\Repository\ArticleRepository")
  */
-class Category
+class Article
 {
-
     /**
      * @var integer
      *
@@ -23,10 +21,11 @@ class Category
      */
     private $id;
     
-     /**
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    protected $articles;
+    protected $category;
 
     /**
      * @var string
@@ -36,10 +35,11 @@ class Category
     private $title;
 
     /**
-     * @Gedmo\Slug(fields={"title"})
-     * @ORM\Column(length=255, unique=true)
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255)
      */
-    private $slug;
+    private $description;
 
 
     /**
@@ -57,7 +57,7 @@ class Category
      *
      * @param string $title
      *
-     * @return Category
+     * @return Article
      */
     public function setTitle($title)
     {
@@ -77,26 +77,27 @@ class Category
     }
 
     /**
-     * Set slug
+     * Set description
      *
-     * @param string $slug
+     * @param string $description
      *
-     * @return Category
+     * @return Article
      */
-    public function setSlug($slug)
+    public function setDescription($description)
     {
-        $this->slug = $slug;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get slug
+     * Get description
      *
      * @return string
      */
-    public function getSlug()
+    public function getDescription()
     {
-        return $this->slug;
+        return $this->description;
     }
 }
+
