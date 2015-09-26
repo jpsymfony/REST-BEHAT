@@ -1,0 +1,33 @@
+.btn-newsletter {
+    cursor:pointer; 
+    border-radius: 4px 4px 4px 4px;  
+    background: url("../images/bg-button-green.gif") repeat-x scroll left top #459300 !important;
+    border: 1px solid #459300 !important;
+    color: #FFFFFF !important;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 11px !important;
+    padding: 4px 7px !important;
+    margin-top: 5px;
+}
+
+.navbar .nav li a.btn-newsletter.btn-newsletter:hover {
+    text-decoration: underline;
+}
+.navbar .nav li a.btn-newsletter.btn-newsletter:active {
+    padding: 5px 7px 3px !important;
+}
+
+#loader_ajax{
+    display: block;
+    margin-left: 10px;
+    margin-top: 7px;
+}
+
+#response_ajax{
+    display: block;
+    margin-left: 10px;
+    margin-top: 12px;
+    color: #FFF;
+}
