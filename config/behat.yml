@@ -9,12 +9,18 @@ default:
                     selenium2: ~
     suites:
         bo:
+            contexts:
+                - App\CoreBundle\Features\Context\CoreContext
             type: symfony_bundle
             bundle: 'AppBackBundle'
         bo_user:
+            contexts:
+                - App\CoreBundle\Features\Context\CoreContext
             type: symfony_bundle
             bundle: 'AppUserBundle'
         blog:
+            contexts:
+                - App\CoreBundle\Features\Context\CoreContext
             type: symfony_bundle
             bundle: 'AppBlogBundle'
         core:
