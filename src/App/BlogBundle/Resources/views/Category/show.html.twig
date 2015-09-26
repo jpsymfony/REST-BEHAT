@@ -4,7 +4,7 @@
     <h2>{{ category.title }} articles</h2>
 
     <div class="panel-group" id="accordion">
-        {#{% for article in articles %}
+        {% for article in articles %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -17,10 +17,10 @@
                     <div class="panel-body">
                         {{ article.description }}<br />
                         <br />
-                        <a href="{{ path('article_detail', { 'id': article.id, 'slug': article.slug }) }}">more&hellip;</a>
+{#                        <a href="{{ path('article_detail', { 'id': article.id, 'slug': article.slug }) }}">more&hellip;</a>#}
                     </div>
                 </div>
             </div>
-        {% endfor %}#}
+        {% endfor %}
     </div>
 {% endblock %}
