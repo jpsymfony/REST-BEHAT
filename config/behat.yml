@@ -11,7 +11,7 @@ default:
         bo:
             type: symfony_bundle
             bundle: 'AppBackBundle'
-        bo-user:
+        bo_user:
             type: symfony_bundle
             bundle: 'AppUserBundle'
             
