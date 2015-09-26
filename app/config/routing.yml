@@ -1,3 +1,8 @@
+app_blog:
+    resource: "@AppBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app_back:
     resource: "@AppBackBundle/Controller/"
     type:     annotation
