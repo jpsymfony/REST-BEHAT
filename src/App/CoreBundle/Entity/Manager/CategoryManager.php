@@ -15,6 +15,17 @@ class CategoryManager
         $this->em = $em;
     }
 
+    public function update(Category $category, Category $apiCategory)
+    {
+        if (!$apiCategory->getSlug()) {
+            $apiCategory->setSlug($this->slugger->slugify($category->getTitle()));
+        }
+
+        $category->update($apiCategory);
+
+        $this->em->flush();
+    }
+
     public function save(Category $category)
     {
         if (!$category->getSlug()) {

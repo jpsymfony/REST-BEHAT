@@ -11,16 +11,15 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation as Doc;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-
 use App\CoreBundle\Entity\Category;
 use App\ApiBundle\Representation\Categories;
-
 
 /**
  *  @Route("/categories") 
  */
 class CategoryController extends FOSRestController
 {
+
     /**
      * @Rest\Get("/", name="app_api_categories")
      * @Rest\QueryParam(
@@ -59,19 +58,19 @@ class CategoryController extends FOSRestController
      */
     public function getCategoriesAction(ParamFetcherInterface $paramFetcher)
     {
-        $repository =  $this->get('app_core.repository.category');
-        
+        $repository = $this->get('app_core.repository.category');
+
         $categories = $repository->search(
             $paramFetcher->get('keyword'), $paramFetcher->get('order'), $paramFetcher->get('limit'),
             $paramFetcher->get('offset')
         );
-        
+
         return $this
                 ->get('app_api.categories_view_handler')
                 ->handleRepresentation(new Categories($categories), $paramFetcher->all())
         ;
     }
-    
+
     /**
      * @Rest\Get(
      *    path = "/{id}",
@@ -104,7 +103,7 @@ class CategoryController extends FOSRestController
 //        );
         return $category;
     }
-    
+
     /**
      * @Rest\Post("/", name="app_api_new_category")
      *
@@ -130,18 +129,20 @@ class CategoryController extends FOSRestController
 
         $this->get('app_core.category_manager')->save($category);
 
-        return $this->view(null, 201, [
-            'Location' => $this->generateUrl('app_api_category', [ 'id'=> $category->getId() ]),
+        return $this->view(null, 201,
+                [
+                'Location' => $this->generateUrl('app_api_category', [ 'id' => $category->getId()]),
         ]);
     }
-    
-    
+
     /**
      * @Rest\Put(
      *     path = "/{id}",
      *     name = " app_api_edit_category",
      *     requirements = {"id"="\d+"}
      * )
+     *
+     * @ParamConverter("apiCategory", converter="fos_rest.request_body")
      * 
      * @Doc\ApiDoc(
      *      section="Categories",
@@ -161,23 +162,21 @@ class CategoryController extends FOSRestController
      *      },
      * )
      */
-    public function putCategoryAction(Category $category, Request $request)
+    public function putCategoryAction(Category $category, Category $apiCategory,
+                                      ConstraintViolationListInterface $violations)
     {
-        $data = $request->request->get('category');
-        if (empty($data['title']) || empty($data['slug'])) {
-            return $this->view(
-                [ 'error' => 'Missing title or slug parameters.'],
-                Response::HTTP_BAD_REQUEST
-            );
+        if (count($violations)) {
+            return $this->view($violations, 400);
         }
         
-        $category->setSlug($data['slug']);
-        $category->setTitle($data['title']);
+        $this->get('app_core.category_manager')->update($category, $apiCategory);
+
         $em = $this->getDoctrine()->getManager();
         $em->flush($category);
+        
         return $this->view('', Response::HTTP_NO_CONTENT);
     }
-    
+
     /**
      * @Rest\Delete(
      *     path = "/{id}",
@@ -210,7 +209,7 @@ class CategoryController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $em->remove($category);
         $em->flush();
-        
+
         return $this->view('', Response::HTTP_NO_CONTENT);
     }
 }
