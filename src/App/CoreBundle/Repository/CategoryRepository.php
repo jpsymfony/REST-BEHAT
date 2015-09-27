@@ -10,4 +10,14 @@ namespace App\CoreBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    /**
+     * Returns all categories ordered by title ascendant.
+     *
+     * @return \App\CoreBundle\Entity\category
+     */
+    public function getCategories()
+    {
+        return $this->findBy([], [ 'title' => 'ASC' ]);
+    }
 }
