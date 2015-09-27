@@ -2,30 +2,44 @@
 
 namespace App\ApiBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 use App\CoreBundle\Entity\Category;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation as Doc;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+
 
 /**
  *  @Route("/categories") 
  */
-class CategoryController extends Controller
+class CategoryController extends FOSRestController
 {
     /**
-     * @Route("/", name="app_api_categories", defaults={"_format"="json"})
-     * @Method("GET")
+     * @Rest\Get("/", name="app_api_categories")
+     * @Doc\ApiDoc(
+     *     section="Categories",
+     *     resource=true,
+     *     description="Get the list of all categories.",
+     *     statusCodes={
+     *          200="Returned when successful",
+     *     }
+     * )
      */
     public function getCategoriesAction()
     {
-        return $this->render('AppApiBundle:Category:categories.json.twig', [
-            'categories' => $this->get('app_core.repository.category')->getCategories(),]); 
+//        return $this->render('AppApiBundle:Category:categories.json.twig', [
+//            'categories' => $this->get('app_core.repository.category')->getCategories(),]); 
+        
+        return $this->get('app_core.repository.category')->getCategories();
     }
     
     /**
@@ -92,7 +106,22 @@ class CategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->flush($category);
         return new JsonResponse('', Response::HTTP_NO_CONTENT);
-
+    }
+    
+    /**
+    * @Route(
+    *   path = "/{id}",
+    *   name = "app_api_delete_category",
+    *   defaults = {"_format"="json"},
+    *   requirements = {"id"="\d+"})
+    *   @Method("DELETE")
+    */
+    public function deleteCategoryAction(Category $category)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($category);
+        $em->flush();
+        return new JsonResponse('', Response::HTTP_NO_CONTENT);
     }
     
     private function decodeJsonBody(Request $request)

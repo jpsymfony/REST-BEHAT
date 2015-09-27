@@ -83,3 +83,53 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: App\UserBundle\Entity\User
+    
+fos_rest:
+    body_listener:
+        # Convert underscore case properties to camel case
+        # ie: { "the_date": "2014-09-30" } => { "theDate": "2014-09-30" }
+        array_normalizer: fos_rest.normalizer.camel_keys
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: violations
+    view:
+        view_response_listener: 'force'
+        mime_types:
+            json:
+                - application/json
+                - application/x-json
+                - application/vnd.app.categories+json
+                - application/vnd.app.categories+json;v=1.0
+                - application/vnd.app.categories+json;v=2.0
+            xml:
+                - text/xml
+                - application/vnd.app.categories+xml
+                - application/vnd.app.categories+xml;v=1.0
+                - application/vnd.app.categories+xml;v=2.0
+        formats:
+            json: true
+            xml: true
+            rss: false
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+    param_fetcher_listener: true
+    serializer:
+        serialize_null: true
+    format_listener:
+        media_type:
+            version_regex: '/(v|version)=(?P<version>[0-9\.]+)/'
+        rules:
+            - { path: '^/api', priorities: ['json', 'xml'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', priorities: [ 'html'], fallback_format: html }
+
+nelmio_api_doc:
+    name:                 'App API documentation'
+    sandbox:
+        body_format:
+            formats: [form, json, xml]
+            default_format: json

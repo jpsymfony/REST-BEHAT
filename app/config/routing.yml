@@ -3,6 +3,10 @@ app_api:
     type:     annotation
     prefix:   /api
 
+nelmio_api_doc:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
 app_blog:
     resource: "@AppBlogBundle/Controller/"
     type:     annotation
@@ -22,3 +26,4 @@ app_user:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
     prefix:   /admin
+    
