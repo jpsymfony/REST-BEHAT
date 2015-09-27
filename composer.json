@@ -19,7 +19,12 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "stof/doctrine-extensions-bundle": "dev-master"
+        "stof/doctrine-extensions-bundle": "dev-master",
+        "friendsofsymfony/rest-bundle": "~1.5",
+        "jms/serializer-bundle": "~0.13",
+        "nelmio/api-doc-bundle": "~2.8",
+        "pagerfanta/pagerfanta": "~1.0",
+        "cocur/slugify": "~1.1"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "~2.2",
