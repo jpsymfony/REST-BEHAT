@@ -50,6 +50,21 @@ class Category
      */
     private $slug;
 
+    /**
+     * @param string $title
+     * @param string $slug
+     */
+    public function __construct($title, $slug)
+    {
+        $this->title = $title;
+        $this->slug = $slug;
+    }
+
+    public function update(Category $category)
+    {
+        $this->slug = $category->slug;
+        $this->title = $category->title;
+    }
 
     /**
      * Get id
