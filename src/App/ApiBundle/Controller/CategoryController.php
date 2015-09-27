@@ -10,12 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+
 
 use App\CoreBundle\Entity\Category;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation as Doc;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
+
+use FOS\RestBundle\Request\ParamFetcherInterface;
 
 
 /**
@@ -25,6 +28,31 @@ class CategoryController extends FOSRestController
 {
     /**
      * @Rest\Get("/", name="app_api_categories")
+     * @Rest\QueryParam(
+     *     name="keyword",
+     *     requirements="[a-zA-Z0-9]+",
+     *     nullable=true,
+     *     description="The keyword to search for."
+     * )
+     * @Rest\QueryParam(
+     *     name="order",
+     *     requirements="asc|desc",
+     *     default="asc",
+     *     description="Sort order (asc or desc)."
+     * )
+     * @Rest\QueryParam(
+     *     name="limit",
+     *     requirements="\d+",
+     *     default="20",
+     *     description="Max number of categories per page."
+     * )
+     * @Rest\QueryParam(
+     *     name="offset",
+     *     requirements="\d+",
+     *     default="0",
+     * description="The pagination offset."
+     * )
+
      * @Doc\ApiDoc(
      *     section="Categories",
      *     resource=true,
@@ -34,12 +62,16 @@ class CategoryController extends FOSRestController
      *     }
      * )
      */
-    public function getCategoriesAction()
+    public function getCategoriesAction(ParamFetcherInterface $paramFetcher)
     {
-//        return $this->render('AppApiBundle:Category:categories.json.twig', [
-//            'categories' => $this->get('app_core.repository.category')->getCategories(),]); 
+        $repository =  $this->get('app_core.repository.category');
         
-        return $this->get('app_core.repository.category')->getCategories();
+        $categories = $repository->search(
+            $paramFetcher->get('keyword'), $paramFetcher->get('order'), $paramFetcher->get('limit'),
+            $paramFetcher->get('offset')
+        );
+        
+        return new \App\ApiBundle\Representation\Categories($categories);
     }
     
     /**
@@ -152,24 +184,38 @@ class CategoryController extends FOSRestController
     }
     
     /**
-    * @Route(
-    *   path = "/{id}",
-    *   name = "app_api_delete_category",
-    *   defaults = {"_format"="json"},
-    *   requirements = {"id"="\d+"})
-    *   @Method("DELETE")
-    */
+     * @Rest\Delete(
+     *     path = "/{id}",
+     *     name = "app_api_delete_genre",
+     *     requirements = {"id"="\d+"}
+     * )
+     * 
+     * @Rest\View(statusCode=204)
+     *
+     * @Doc\ApiDoc(
+     *      section="Categories",
+     *      description="Delete an existing genre.",
+     *      statusCodes={
+     *          201="Returned if genre has been successfully deleted",
+     *          400="Returned if genre does not exist",
+     *          500="Returned if server error"
+     *      },
+     *      requirements={
+     *          {
+     *              "name"="id",
+     *              "dataType"="integer",
+     *              "requirement"="\d+",
+     *              "description"="The genre unique identifier."
+     *          }
+     *      },
+     * )
+     */
     public function deleteCategoryAction(Category $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($category);
+        $em->remove($genre);
         $em->flush();
-        return new JsonResponse('', Response::HTTP_NO_CONTENT);
-    }
-    
-    private function decodeJsonBody(Request $request)
-    {
-        $parameters = json_decode($request->getContent(), true);
-        $request->request = new ParameterBag($parameters);
+        
+        return $this->view('', Response::HTTP_NO_CONTENT);
     }
 }

@@ -4,22 +4,26 @@ namespace App\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Category
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="App\CoreBundle\Repository\CategoryRepository")
+ * @Serializer\ExclusionPolicy("ALL")
+ * @Serializer\XmlRoot("category")
  */
 class Category
 {
-
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\XmlAttribute
+     * @Serializer\Expose
      */
     private $id;
     
@@ -32,6 +36,7 @@ class Category
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Serializer\Expose
      */
     private $title;
 

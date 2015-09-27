@@ -20,4 +20,29 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->findBy([], [ 'title' => 'ASC' ]);
     }
+    
+        /**
+     * @param string $term
+     * @param string $order
+     *
+     * @return \Traversable
+     */
+    public function search($term, $order = 'asc', $limit = 20, $offset = 0)
+    {
+        $qb = $this
+            ->createQueryBuilder('c')
+            ->select('c')
+            ->orderBy('c.title', $order)
+        ;
+
+        if ($term) {
+            $qb
+                ->where('c.title LIKE ?1')
+                ->setParameter(1, '%' . $term . '%')
+            ;
+        }
+
+//        return $this->paginate($qb, $limit, $offset);
+        return $qb->getQuery()->execute();
+    }
 }
