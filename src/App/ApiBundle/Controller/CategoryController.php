@@ -6,11 +6,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation as Doc;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 use App\CoreBundle\Entity\Category;
 use App\ApiBundle\Representation\Categories;
@@ -105,8 +105,12 @@ class CategoryController extends FOSRestController
         return $category;
     }
     
-/**
+    /**
      * @Rest\Post("/", name="app_api_new_category")
+     *
+     * @ParamConverter("category", converter="fos_rest.request_body")
+     *
+     * @Rest\View(statusCode=201)
      *
      * @Doc\ApiDoc(
      *      section="Categories",
@@ -118,24 +122,17 @@ class CategoryController extends FOSRestController
      *      }
      * )
      */
-    public function postCategoryAction(Request $request)
+    public function postCategoryAction(Category $category, ConstraintViolationListInterface $violations)
     {
-        $data = $request->request->get('category');
-
-        if (empty($data['title']) || empty($data['slug'])) {
-            return $this->view([ 'error' => 'Missing title or slug.'], 400);
+        if (count($violations)) {
+            return $this->view($violations, 400);
         }
 
-        $category = new Category();
-        $category->setTitle($data['title']);
-        $category->setSlug($data['slug']);
+        $this->get('app_core.category_manager')->save($category);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($category);
-        $em->flush();
-        $location = $this->generateUrl('app_api_category', [ 'id' => $category->getId() ], true);
-
-        return $this->view('', 201, [ 'Location' => $location]);
+        return $this->view(null, 201, [
+            'Location' => $this->generateUrl('app_api_category', [ 'id'=> $category->getId() ]),
+        ]);
     }
     
     
@@ -211,7 +208,7 @@ class CategoryController extends FOSRestController
     public function deleteCategoryAction(Category $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($genre);
+        $em->remove($category);
         $em->flush();
         
         return $this->view('', Response::HTTP_NO_CONTENT);

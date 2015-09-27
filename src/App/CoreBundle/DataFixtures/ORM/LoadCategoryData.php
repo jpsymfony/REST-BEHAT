@@ -11,21 +11,10 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
 {
     public function load(ObjectManager $manager)
     {
-        $cat1 = new Category();
-        $cat1->setTitle('Insolite');
-        $cat1->setSlug('insolite');
-
-        $cat2 = new Category();
-        $cat2->setTitle('Crypto');
-        $cat2->setSlug('crypto');
-
-        $cat3 = new Category();
-        $cat3->setTitle('Bad practices');
-        $cat3->setSlug('bad-practices');
-
-        $cat4 = new Category();
-        $cat4->setTitle('Design patterns');
-        $cat4->setSlug('design-patterns');
+        $cat1 = new Category('Insolite', 'insolite');
+        $cat2 = new Category('Crypto', 'crypto');
+        $cat3 = new Category('Bad practices', 'bad-practices');
+        $cat4 = new Category('Design patterns', 'design-patterns');
 
         $manager->persist($cat1);
         $manager->persist($cat2);
