@@ -43,36 +43,59 @@ class CategoryController extends FOSRestController
     }
     
     /**
-     * Finds and displays a Category entity.
+     * @Rest\Get(
+     *    path = "/{id}",
+     *    name="app_api_category",
+     *    requirements={"id"="\d+"}
+     * )
      *
-     * @Route(path="/{id}",
-     *        name="app_api_category",
-     *        defaults={"_format"="json"},
-     *        requirements = {"id"="\d+"})
-     * @Method("GET")
-     * @ParamConverter("category", class="AppCoreBundle:Category")
+     * @Doc\ApiDoc(
+     *     section="Categories",
+     *     resource=true,
+     *     description="Get one category.",
+     *     requirements={
+     *          {
+     *              "name"="id",
+     *              "dataType"="integer",
+     *              "requirement"="\d+",
+     *              "description"="The genre unique identifier."
+     *          }
+     *      },
+     *      statusCodes={
+     *          200="Returned when successful",
+     *      }
+     * )
      */
-    public function getCategoryAction(\App\CoreBundle\Entity\Category $category)
+    public function getCategoryAction(Category $category)
     {
-        return $this->render(
-            'AppApiBundle:Category:category.json.twig',
-            ['category' => $category]
-        );
+//        return $this->render(
+//            'AppApiBundle:Category:category.json.twig',
+//            ['category' => $category]
+//        );
+        return $category;
     }
     
-    /**
-    * @Route("/", name="app_api_new_category", defaults={"_format"="json"})
-    * @Method("POST")
-    */
-    public function postGenreAction(Request $request)
+/**
+     * @Rest\Post("/", name="app_api_new_category")
+     *
+     * @Doc\ApiDoc(
+     *      section="Categories",
+     *      description="Creates a new category.",
+     *      statusCodes={
+     *          201="Returned if category has been successfully created",
+     *          400="Returned if errors",
+     *          500="Returned if server error"
+     *      }
+     * )
+     */
+    public function postCategoryAction(Request $request)
     {
-        $this->decodeJsonBody($request);
         $data = $request->request->get('category');
-        
+
         if (empty($data['title']) || empty($data['slug'])) {
-            return new JsonResponse([ 'error' => 'Missing title or slug.'], 400);
+            return $this->view([ 'error' => 'Missing title or slug.'], 400);
         }
-        
+
         $category = new Category();
         $category->setTitle($data['title']);
         $category->setSlug($data['slug']);
@@ -81,31 +104,51 @@ class CategoryController extends FOSRestController
         $em->persist($category);
         $em->flush();
         $location = $this->generateUrl('app_api_category', [ 'id' => $category->getId() ], true);
-        return new JsonResponse('', 201, [ 'Location' => $location ]);
+
+        return $this->view('', 201, [ 'Location' => $location]);
     }
     
+    
     /**
-     * @Route(path="/{id}",
-     *        name="app_api_edit_category",
-     *        defaults={"_format"="json"},
-     *        requirements = {"id"="\d+"})
-     * @Method("PUT")
-    */
+     * @Rest\Put(
+     *     path = "/{id}",
+     *     name = " app_api_edit_category",
+     *     requirements = {"id"="\d+"}
+     * )
+     * 
+     * @Doc\ApiDoc(
+     *      section="Categories",
+     *      description="Edit an existing genre.",
+     *      statusCodes={
+     *          201="Returned if genre has been successfully edited",
+     *          400="Returned if errors",
+     *          500="Returned if server error"
+     *      },
+     *      requirements={
+     *          {
+     *              "name"="id",
+     *              "dataType"="integer",
+     *              "requirement"="\d+",
+     *              "description"="The category unique identifier."
+     *          }
+     *      },
+     * )
+     */
     public function putCategoryAction(Category $category, Request $request)
     {
-        $this->decodeJsonBody($request);
         $data = $request->request->get('category');
         if (empty($data['title']) || empty($data['slug'])) {
-            return new JsonResponse(
+            return $this->view(
                 [ 'error' => 'Missing title or slug parameters.'],
                 Response::HTTP_BAD_REQUEST
             );
         }
+        
         $category->setSlug($data['slug']);
         $category->setTitle($data['title']);
         $em = $this->getDoctrine()->getManager();
         $em->flush($category);
-        return new JsonResponse('', Response::HTTP_NO_CONTENT);
+        return $this->view('', Response::HTTP_NO_CONTENT);
     }
     
     /**
