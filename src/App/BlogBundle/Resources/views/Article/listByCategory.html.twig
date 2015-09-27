@@ -1,7 +1,7 @@
-{% extends "AppBlogBundle::layout.html.twig" %}
+{% extends 'AppBlogBundle::layout.html.twig' %}
 
 {% block content %}
-    <h2>{{ category.title }} articles</h2>
+    <h2>{{ category.title }} Articles</h2>
 
     <div class="panel-group" id="accordion">
         {% for article in articles %}
