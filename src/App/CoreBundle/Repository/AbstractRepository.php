@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoovio\Bundle\CoreBundle\Repository;
+namespace App\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;

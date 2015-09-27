@@ -66,7 +66,10 @@ class CategoryController extends FOSRestController
             $paramFetcher->get('offset')
         );
         
-        return new Categories($categories);
+        return $this
+                ->get('app_api.categories_view_handler')
+                ->handleRepresentation(new Categories($categories), $paramFetcher->all())
+        ;
     }
     
     /**
