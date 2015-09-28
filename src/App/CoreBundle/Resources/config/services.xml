@@ -3,23 +3,50 @@
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    
+    <parameters>
+        <parameter key="app.unique_attribute_validator.class">App\CoreBundle\Validator\Constraints\UniqueAttributeValidator</parameter>
+        <parameter key="app.user.manager.class">App\CoreBundle\User\Manager\UserManager</parameter>
+        <parameter key="app.registration.handler.class">App\CoreBundle\User\Registration\RegistrationFormHandler</parameter>
+    </parameters>
+    
     <services>
         <service id="app.slugify" class="Cocur\Slugify\Slugify" />
         <service id="app_core.category_manager" class="App\CoreBundle\Entity\Manager\CategoryManager">
             <argument type="service" id="app.slugify"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
+        
         <service id="app_core.repository.category"
                          class="App\CoreBundle\Repository\CategoryRepository"
                          factory-service="doctrine"
                          factory-method="getRepository">
                     <argument>App\CoreBundle\Entity\Category</argument>
         </service>
+        
         <service id="app_core.repository.article"
                          class="App\CoreBundle\Repository\ArticleRepository"
                          factory-service="doctrine"
                          factory-method="getRepository">
                     <argument>App\CoreBundle\Entity\Article</argument>
+        </service>
+        
+        <service id="app.unique_attribute_validator"
+                 class="%app.unique_attribute_validator.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="validator.constraint_validator" alias="unique_attribute_validator"/>
+        </service>
+        
+        <service id="app.user.manager"
+                 class="%app.user.manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="security.encoder_factory" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        
+        <service id="app.registration.handler"
+                 class="%app.registration.handler.class%">
+            <argument type="service" id="app.user.manager" />
         </service>
     </services>
 </container>

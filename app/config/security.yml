@@ -8,10 +8,10 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username
         database_users:
             entity: { class: AppCoreBundle:User, property: username }
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
         dev:

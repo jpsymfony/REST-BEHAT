@@ -11,7 +11,7 @@
                     <li><a href="{{ path('security_logout') }}">Logout</a></li>
                 {% else %}
                     <li><a href="{{ path('security_login_form') }}">Login</a></li>
-{#                    <li><a href="{{ path('auth_signup') }}">Sign Up</a></li>#}
+                    <li><a href="{{ path('security_register_form') }}">Register</a></li>
                 {% endif %}
             </ul>
             <h3 class="text-muted"><a href="{{ path('homepage') }}">REST-BEHAT</a></h3>
