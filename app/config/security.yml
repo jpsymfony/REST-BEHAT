@@ -1,6 +1,7 @@
 security:
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
+        App\CoreBundle\Entity\User: sha512
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -9,13 +10,15 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username
+        database_users:
+            entity: { class: AppCoreBundle:User, property: username }
 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            pattern: ^/
+        bo:
+            pattern: ^/admin
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
@@ -30,6 +33,33 @@ security:
                 lifetime: 31536000 # 365 jours en secondes
                 path:     /
                 domain:   ~ # Prend la valeur par défaut du domaine courant depuis $_SERVER
+        fo:
+            # this firewall applies to all URLs
+            pattern: ^/
+ 
+            # but the firewall does not require login on every page
+            # denying access is done in access_control or in your controllers
+            anonymous: true
+            
+            # This allows the user to login by submitting a username and password
+            # Reference: http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            form_login:
+                # The route name that the login form submits to
+                check_path: security_login_check
+                # The name of the route where the login form lives
+                # When the user tries to access a protected page, they are redirected here
+                login_path: security_login_form
+                # Secure the login form against CSRF
+                # Reference: http://symfony.com/doc/current/cookbook/security/csrf_in_login_form.html
+                csrf_provider: security.csrf.token_manager
+                
+                default_target_path: user_dashboard
+                always_use_default_target_path: true
+            logout:
+                # The route name the user can go to in order to logout
+                path: security_logout
+                # The name of the route to redirect to after logging out
+                target: homepage
 
     access_control:
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
