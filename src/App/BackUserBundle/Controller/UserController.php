@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UserBundle\Controller;
+namespace App\BackUserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,7 +25,7 @@ class UserController extends Controller
     {        
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppUserBundle:User')->findAll();
+        $entities = $em->getRepository('AppBackUserBundle:User')->findAll();
 
         return array(
             'users' => $entities,
@@ -40,7 +40,7 @@ class UserController extends Controller
     public function deleteAction($id)
     {        
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AppUserBundle:User')->find($id);
+        $entity = $em->getRepository('AppBackUserBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');

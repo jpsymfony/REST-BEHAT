@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
 
             new App\BackBundle\AppBackBundle(),
-            new App\UserBundle\AppUserBundle(),
+            new App\BackUserBundle\AppBackUserBundle(),
             new App\BlogBundle\AppBlogBundle(),
             new App\CoreBundle\AppCoreBundle(),
             new App\ApiBundle\AppApiBundle(),

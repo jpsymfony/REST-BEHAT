@@ -18,7 +18,7 @@ app_back:
     prefix:   /admin
     
 app_user:
-    resource: "@AppUserBundle/Controller/"
+    resource: "@AppBackUserBundle/Controller/"
     type:     annotation
     prefix:   /admin
     

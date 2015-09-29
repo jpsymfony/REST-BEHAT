@@ -82,7 +82,7 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: App\UserBundle\Entity\User
+    user_class: App\BackUserBundle\Entity\User
     
 fos_rest:
     body_listener:
