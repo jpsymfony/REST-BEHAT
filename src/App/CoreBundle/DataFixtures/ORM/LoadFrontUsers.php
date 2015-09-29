@@ -28,7 +28,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class LoadFixtures implements FixtureInterface, ContainerAwareInterface
+class LoadFrontUsers implements FixtureInterface, ContainerAwareInterface
 {
     /** @var ContainerInterface */
     private $container;
