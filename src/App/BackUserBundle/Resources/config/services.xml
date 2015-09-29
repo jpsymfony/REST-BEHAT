@@ -6,7 +6,7 @@
 
     <!--
     <parameters>
-        <parameter key="app_user.example.class">App\UserBundle\Example</parameter>
+        <parameter key="app_user.example.class">App\BackUserBundle\Example</parameter>
     </parameters>
 
     <services>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UserBundle\Features\Context;
+namespace App\BackUserBundle\Features\Context;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;

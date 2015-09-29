@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UserBundle\Controller;
+namespace App\BackUserBundle\Controller;
 
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use FOS\UserBundle\FOSUserEvents;

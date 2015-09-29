@@ -1,10 +1,10 @@
 <?php
 
-namespace App\UserBundle;
+namespace App\BackUserBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class AppUserBundle extends Bundle
+class AppBackUserBundle extends Bundle
 {
     public function getParent()
     {
