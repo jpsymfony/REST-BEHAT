@@ -1,0 +1,11 @@
+{% extends "AppBlogBundle::layout.html.twig" %}
+
+{% block title 'Member Area' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <p>
+        Welcome {{ app.user.username }}
+    </p>
+    {% include 'partials/errorSuccess.html.twig' %}
+{% endblock %}
