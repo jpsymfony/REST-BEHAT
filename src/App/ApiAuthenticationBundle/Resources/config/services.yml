@@ -1,0 +1,18 @@
+parameters:
+    api.event.jwt_response_listener.class: App\ApiAuthenticationBundle\EventListener\JWTResponseListener
+    api.event.jwt_created_listener.class: App\ApiAuthenticationBundle\EventListener\JWTCreatedListener
+    api.event.jwt_decoded_listener.class: App\ApiAuthenticationBundle\EventListener\JWTDecodedListener
+
+services:
+    api.event.jwt_response_listener:
+        class: %api.event.jwt_response_listener.class%
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+    api.event.jwt_created_listener:
+        class: %api.event.jwt_created_listener.class%
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+    api.event.jwt_decoded_listener:
+        class: %api.event.jwt_decoded_listener.class%
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }

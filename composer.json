@@ -24,7 +24,8 @@
         "jms/serializer-bundle": "~0.13",
         "nelmio/api-doc-bundle": "~2.8",
         "pagerfanta/pagerfanta": "~1.0",
-        "cocur/slugify": "~1.1"
+        "cocur/slugify": "~1.1",
+        "lexik/jwt-authentication-bundle": "dev-master"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "~2.2",
@@ -34,7 +35,8 @@
         "behat/symfony2-extension": "~2.0",
         "behat/mink": "1.6.*",
         "behat/mink-extension": "~2.0",
-        "behat/mink-selenium2-driver": "*"
+        "behat/mink-selenium2-driver": "*",
+        "liip/functional-test-bundle": "1.0.*"
     },
     "scripts": {
         "post-install-cmd": [
