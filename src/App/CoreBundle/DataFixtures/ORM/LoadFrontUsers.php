@@ -41,8 +41,8 @@ class LoadFrontUsers implements FixtureInterface, ContainerAwareInterface
     private function loadUsers(ObjectManager $manager)
     {
         $user = new User();
-        $user->setUsername('john');
-        $user->setEmail('john@symfony.com');
+        $user->setUsername('user');
+        $user->setEmail('user@symfony.com');
         $user->setPlainPassword('password');
         $user->setIsActive(true);
 

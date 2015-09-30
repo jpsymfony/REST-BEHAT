@@ -154,8 +154,7 @@ class User implements UserInterface, Serializable
         if ($this->plainPassword) {
             $this->salt = sha1(uniqid(mt_rand()));
             $this->password = $encoder->encodePassword(
-                $this->plainPassword,
-                $this->salt
+                $this->plainPassword, $this->salt
             );
 
             $this->eraseCredentials();
@@ -268,7 +267,7 @@ class User implements UserInterface, Serializable
             $this->id,
             $this->username,
             $this->password,
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     /**

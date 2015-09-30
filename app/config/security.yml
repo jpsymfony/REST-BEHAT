@@ -33,6 +33,28 @@ security:
                 lifetime: 31536000 # 365 jours en secondes
                 path:     /
                 domain:   ~ # Prend la valeur par défaut du domaine courant depuis $_SERVER
+        api_login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            form_login:
+                check_path: /api/login_check
+                require_previous_session: false
+                username_parameter: username
+                password_parameter: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            lexik_jwt:
+                authorization_header:
+                    enabled: true
+                    prefix:  Bearer
+                query_parameter:
+                    enabled: true
+                    name:    bearer
         fo:
             # this firewall applies to all URLs
             pattern: ^/
@@ -66,4 +88,6 @@ security:
         - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
