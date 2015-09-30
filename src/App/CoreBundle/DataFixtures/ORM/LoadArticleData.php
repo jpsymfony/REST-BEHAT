@@ -23,7 +23,7 @@ class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
             for ($i = 1; $i < 30; $i++) {
                 $art = new Article();
                 $art->setTitle('Article ' . $i . ' ' . $category->getTitle());
-                $art->setSlug('article-' . $i . ' ' . $category->getSlug());
+                $art->setSlug('article-' . $i . '-' . $category->getSlug());
                 $art->setDescription('description article ' . $i . ' ' .$category->getTitle());
                 $art->setCategory($category);
                 $manager->persist($art);

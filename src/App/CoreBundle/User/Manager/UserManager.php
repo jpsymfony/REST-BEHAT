@@ -9,6 +9,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+use App\CoreBundle\AppCoreEvents;
+use App\CoreBundle\Event\UserDataEvent;
+
 class UserManager implements UserManagerInterface
 {
     /**
@@ -50,6 +53,11 @@ class UserManager implements UserManagerInterface
     {
         $user->encodePassword($this->encoderFactory->getEncoder($user));
         $this->persistAndFlushUser($user);
+
+        $this->dispatcher->dispatch(
+            AppCoreEvents::NEW_ACCOUNT_CREATED,
+            new UserDataEvent($user)
+        );
     }
 
     /**

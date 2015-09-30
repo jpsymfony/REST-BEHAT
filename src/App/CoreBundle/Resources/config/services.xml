@@ -8,6 +8,7 @@
         <parameter key="app.unique_attribute_validator.class">App\CoreBundle\Validator\Constraints\UniqueAttributeValidator</parameter>
         <parameter key="app.user.manager.class">App\CoreBundle\User\Manager\UserManager</parameter>
         <parameter key="app.registration.handler.class">App\CoreBundle\User\Registration\RegistrationFormHandler</parameter>
+        <parameter key="app.send_confirmation_mail_listener.class">App\CoreBundle\EventListener\SendConfirmationMailListener</parameter>
     </parameters>
     
     <services>
@@ -15,6 +16,15 @@
         <service id="app_core.category_manager" class="App\CoreBundle\Entity\Manager\CategoryManager">
             <argument type="service" id="app.slugify"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+        
+        <service id="app.send_confirmation_mail_listener"
+                 class="%app.send_confirmation_mail_listener.class%">
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="twig" />
+            <argument>AppBlogBundle:Mail:confirmation_mail.html.twig</argument>
+            <argument>%email_from%</argument>
+            <tag name="kernel.event_listener" event="app.new_account_created" method="onNewAccountCreated" />
         </service>
         
         <service id="app_core.repository.category"
