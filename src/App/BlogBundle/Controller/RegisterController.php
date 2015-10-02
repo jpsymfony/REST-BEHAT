@@ -49,6 +49,6 @@ class RegisterController extends Controller
      */
     protected function getRegistrationFormHandler()
     {
-        return $this->container->get('app.registration.handler');
+        return $this->container->get('app_core.registration.handler');
     }
 }

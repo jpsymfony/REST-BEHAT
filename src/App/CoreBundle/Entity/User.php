@@ -2,13 +2,13 @@
 
 namespace App\CoreBundle\Entity;
 
-use App\CoreBundle\Entity\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\CoreBundle\Entity\UserInterface;
 
 /**
  * User
@@ -77,6 +77,23 @@ class User implements UserInterface, Serializable
      * )
      */
     private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmationToken = null;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $isAlreadyRequested = false;
+
+    public function __toString()
+    {
+        return (string) $this->getUsername();
+    }
 
     /**
      * Get id
@@ -293,8 +310,23 @@ class User implements UserInterface, Serializable
         return $this->email;
     }
 
-    public function __toString()
+    public function getConfirmationToken()
     {
-        return (string) $this->getUsername();
+        return $this->confirmationToken;
+    }
+
+    public function getIsAlreadyRequested()
+    {
+        return $this->isAlreadyRequested;
+    }
+
+    public function setConfirmationToken($confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+    }
+
+    public function setIsAlreadyRequested($isAlreadyRequested)
+    {
+        $this->isAlreadyRequested = $isAlreadyRequested;
     }
 }

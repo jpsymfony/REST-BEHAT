@@ -8,6 +8,7 @@
                 <li><a href="{{ path('categories') }}" id="categories">Catégories</a></li>
                 <li><a href="{#{{ path('search') }}#}" id="search">Recherche</a></li>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li><a href="{{ path('change_password') }}">Change Password</a></li>
                     <li><a href="{{ path('security_logout') }}">Logout</a></li>
                 {% else %}
                     <li><a href="{{ path('security_login_form') }}">Login</a></li>
