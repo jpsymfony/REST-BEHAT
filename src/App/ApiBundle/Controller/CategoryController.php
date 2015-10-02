@@ -87,7 +87,7 @@ class CategoryController extends FOSRestController
      *              "name"="id",
      *              "dataType"="integer",
      *              "requirement"="\d+",
-     *              "description"="The genre unique identifier."
+     *              "description"="The category unique identifier."
      *          }
      *      },
      *      statusCodes={
@@ -146,9 +146,9 @@ class CategoryController extends FOSRestController
      * 
      * @Doc\ApiDoc(
      *      section="Categories",
-     *      description="Edit an existing genre.",
+     *      description="Edit an existing category.",
      *      statusCodes={
-     *          201="Returned if genre has been successfully edited",
+     *          201="Returned if category has been successfully edited",
      *          400="Returned if errors",
      *          500="Returned if server error"
      *      },
@@ -180,7 +180,7 @@ class CategoryController extends FOSRestController
     /**
      * @Rest\Delete(
      *     path = "/{id}",
-     *     name = "app_api_delete_genre",
+     *     name = "app_api_delete_category",
      *     requirements = {"id"="\d+"}
      * )
      * 
@@ -188,10 +188,10 @@ class CategoryController extends FOSRestController
      *
      * @Doc\ApiDoc(
      *      section="Categories",
-     *      description="Delete an existing genre.",
+     *      description="Delete an existing category.",
      *      statusCodes={
-     *          201="Returned if genre has been successfully deleted",
-     *          400="Returned if genre does not exist",
+     *          201="Returned if category has been successfully deleted",
+     *          400="Returned if category does not exist",
      *          500="Returned if server error"
      *      },
      *      requirements={
@@ -199,7 +199,7 @@ class CategoryController extends FOSRestController
      *              "name"="id",
      *              "dataType"="integer",
      *              "requirement"="\d+",
-     *              "description"="The genre unique identifier."
+     *              "description"="The category unique identifier."
      *          }
      *      },
      * )
