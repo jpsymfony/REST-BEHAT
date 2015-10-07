@@ -8,10 +8,10 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        database_users:
-            entity: { class: AppCoreBundle:User, property: username }
         fos_userbundle:
             id: fos_user.user_provider.username
+        database_users:
+            entity: { class: AppCoreBundle:User, property: username }
 
     firewalls:
         dev:
@@ -66,6 +66,7 @@ security:
             # This allows the user to login by submitting a username and password
             # Reference: http://symfony.com/doc/current/cookbook/security/form_login_setup.html
             form_login:
+                provider: database_users
                 # The route name that the login form submits to
                 check_path: security_login_check
                 # The name of the route where the login form lives
