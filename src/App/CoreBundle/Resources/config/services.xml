@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    
+    <parameters>
+        <parameter key="app_core.unique_attribute_validator.class">App\CoreBundle\Validator\Constraints\UniqueAttributeValidator</parameter>
+        <parameter key="app_core.user.manager.class">App\CoreBundle\User\Manager\UserManager</parameter>
+        <parameter key="app_core.registration.handler.class">App\CoreBundle\User\Registration\RegistrationFormHandler</parameter>
+        <parameter key="app_core.change_password.handler.class">App\CoreBundle\User\Password\ChangePasswordFormHandler</parameter>
+        <parameter key="app_core.request_password.handler.class">App\CoreBundle\User\Password\RequestPasswordFormHandler</parameter>
+        <parameter key="app_core.reset_password.handler.class">App\CoreBundle\User\Password\ResetPasswordFormHandler</parameter>
+        <parameter key="app_core.send_confirmation_mail_listener.class">App\CoreBundle\EventListener\SendConfirmationMailListener</parameter>
+        <parameter key="app_core.send_request_password_mail_listener.class">App\CoreBundle\EventListener\SendRequestPasswordMailListener</parameter>
+        <parameter key="form.type.change_password.class">App\BlogBundle\Form\Type\ChangePasswordType</parameter>
+        <parameter key="form.type.request_password.class">App\BlogBundle\Form\Type\RequestPasswordType</parameter>
+        <parameter key="form.type.reset_password.class">App\BlogBundle\Form\Type\ResetPasswordType</parameter>
+    </parameters>
+    
+    <services>
+        <service id="app_core.slugify" class="Cocur\Slugify\Slugify" />
+        
+        <service id="app_core.category_manager" class="App\CoreBundle\Entity\Manager\CategoryManager">
+            <argument type="service" id="app_core.slugify"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+        
+        <service id="app_core.unique_attribute_validator"
+                 class="%app_core.unique_attribute_validator.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="validator.constraint_validator" alias="unique_attribute_validator"/>
+        </service>
+        
+        <service id="app_core.user.manager"
+                 class="%app_core.user.manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="security.encoder_factory" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="security.password_encoder" />
+            <argument type="service" id="app_core.repository.user" />
+        </service>
+        
+        <service id="app_core.registration.handler"
+                 class="%app_core.registration.handler.class%">
+            <argument type="service" id="app_core.user.manager" />
+        </service>
+        
+        <service id="app_core.change_password.handler"
+                 class="%app_core.change_password.handler.class%">
+            <argument type="service" id="app_core.user.manager" />
+        </service>
+        
+        <service id="app_core.request_password.handler"
+                 class="%app_core.request_password.handler.class%">
+            <argument type="service" id="app_core.user.manager" />
+        </service>
+        
+        <service id="app_core.reset_password.handler"
+                 class="%app_core.reset_password.handler.class%">
+            <argument type="service" id="app_core.user.manager" />
+        </service>
+        
+        <service id="app_core.send_confirmation_mail_listener"
+                 class="%app_core.send_confirmation_mail_listener.class%">
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="twig" />
+            <argument>AppBlogBundle:Mail:confirmation_mail.html.twig</argument>
+            <argument>%email_from%</argument>
+            <tag name="kernel.event_listener" event="app.new_account_created" method="onNewAccountCreated" />
+        </service>
+        
+        <service id="app_core.send_request_password_mail_listener"
+                 class="%app_core.send_request_password_mail_listener.class%">
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="twig" />
+            <argument type="service" id="router" />
+            <argument type="service" id="security.csrf.token_generator" />
+            <argument type="service" id="app_core.user.manager" />
+            <argument>AppBlogBundle:Mail:request_password_mail.html.twig</argument>
+            <argument>%email_from%</argument>
+            <tag name="kernel.event_listener" event="app.new_password_requested" method="onRequestedPassword" />
+        </service>
+        
+        <service id="form.type.change_password"
+                 class="%form.type.change_password.class%">
+            <argument type="service" id="app_core.user.manager" />
+            <tag name="form.type" alias="change_password_form" />
+        </service>
+        
+        <service id="form.type.request_password"
+                 class="%form.type.request_password.class%">
+            <argument type="service" id="app_core.user.manager" />
+            <tag name="form.type" alias="request_password_form" />
+        </service>
+
+        <service id="form.type.reset_password"
+                 class="%form.type.reset_password.class%" scope="request" >
+            <argument type="service" id="app_core.user.manager" />
+            <argument type="service" id="request" />
+            <tag name="form.type" alias="reset_password_form" />
+        </service>
+        
+        <service id="app_core.repository.user"
+                 class="App\CoreBundle\Repository\UserRepository"
+                 factory-service="doctrine"
+                 factory-method="getRepository">
+            <argument>App\CoreBundle\Entity\User</argument>
+        </service>
+        
+        <service id="app_core.repository.category"
+                 class="App\CoreBundle\Repository\CategoryRepository"
+                 factory-service="doctrine"
+                 factory-method="getRepository">
+            <argument>App\CoreBundle\Entity\Category</argument>
+        </service>
+        
+        <service id="app_core.repository.article"
+                 class="App\CoreBundle\Repository\ArticleRepository"
+                 factory-service="doctrine"
+                 factory-method="getRepository">
+            <argument>App\CoreBundle\Entity\Article</argument>
+        </service>
+    </services>
+</container>

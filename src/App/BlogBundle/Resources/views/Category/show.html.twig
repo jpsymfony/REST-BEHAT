@@ -1,0 +1,26 @@
+{% extends "AppBlogBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>{{ category.title }} articles</h2>
+
+    <div class="panel-group" id="accordion">
+        {% for article in articles %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index0 }}">
+                            {{ article.title }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse{{ loop.index0 }}" class="panel-collapse collapse {% if loop.first %}in{% endif %}">
+                    <div class="panel-body">
+                        {{ article.description }}<br />
+                        <br />
+                        <a href="{{ path('article_detail', { 'id': article.id, 'slug': article.slug }) }}">more&hellip;</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "AppBlogBundle::layout.html.twig" %}
+
+{% block content %}
+    {% for category in categories %}
+        <div class="category col-md-3">
+            <a href="{{ path('category_show', { id: category.id }) }}" id="{{ category.id }}">{{ category.title }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}

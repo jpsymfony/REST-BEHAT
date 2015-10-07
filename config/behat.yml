@@ -1,0 +1,40 @@
+default:
+    autoload: src/
+    extensions:
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            base_url: http://rest-behat.local
+            sessions:
+                my_session:
+                    selenium2: ~
+    suites:
+        bo:
+            contexts:
+                - App\CoreBundle\Features\Context\CoreContext
+            type: symfony_bundle
+            bundle: 'AppBackBundle'
+        bo_user:
+            contexts:
+                - App\CoreBundle\Features\Context\CoreContext
+            type: symfony_bundle
+            bundle: 'AppBackUserBundle'
+        blog:
+            contexts:
+                - App\CoreBundle\Features\Context\CoreContext
+            type: symfony_bundle
+            bundle: 'AppBlogBundle'
+            
+dev:
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://rest-behat.dev
+            
+preprod:
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://rest-behat.preprod
+            
+prod:
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://rest-behat.fr       

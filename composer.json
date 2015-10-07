@@ -17,10 +17,26 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "stof/doctrine-extensions-bundle": "dev-master",
+        "friendsofsymfony/rest-bundle": "~1.5",
+        "jms/serializer-bundle": "~0.13",
+        "nelmio/api-doc-bundle": "~2.8",
+        "pagerfanta/pagerfanta": "~1.0",
+        "cocur/slugify": "~1.1",
+        "lexik/jwt-authentication-bundle": "dev-master"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
+        "sensio/generator-bundle": "~2.3",
+        "phpunit/phpunit": "4.8.*",
+        "behat/behat": "~3.0",
+        "behat/symfony2-extension": "~2.0",
+        "behat/mink": "1.6.*",
+        "behat/mink-extension": "~2.0",
+        "behat/mink-selenium2-driver": "*",
+        "liip/functional-test-bundle": "1.0.*"
     },
     "scripts": {
         "post-install-cmd": [
