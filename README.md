@@ -1,4 +1,4 @@
-my_project
+REST project
 ==========
 
-A Symfony project created on September 26, 2015, 8:48 am.
+A Symfony project with MINK, BEHAT, custom authentication and FosRestBundle
