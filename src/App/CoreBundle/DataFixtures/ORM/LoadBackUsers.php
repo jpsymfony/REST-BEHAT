@@ -42,6 +42,7 @@ class LoadBackUsers implements FixtureInterface, ContainerAwareInterface
         $manipulator = $this->container->get('fos_user.util.user_manipulator');
         $manipulator->create('supadmin', 'supadmin', 'supadmin@gmail.com', true, true);
         $manipulator->create('admin', 'admin', 'admin@gmail.com', true, false);
+        $manipulator->addRole('admin', 'ROLE_ADMIN');
     } 
 
     public function setContainer(ContainerInterface $container = null)
