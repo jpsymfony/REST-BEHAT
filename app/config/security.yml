@@ -91,4 +91,6 @@ security:
         - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/account/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
