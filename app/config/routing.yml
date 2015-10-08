@@ -9,7 +9,7 @@ app_api:
 
 nelmio_api_doc:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
+    prefix:   /blog-api/doc
 
 app_blog:
     resource: "@AppBlogBundle/Controller/"
