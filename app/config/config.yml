@@ -150,3 +150,10 @@ sensio_framework_extra:
 jms_serializer:
     metadata:
         auto_detection: true
+        
+stof_doctrine_extensions:
+    default_locale: fr_FR
+    orm:
+        default:
+            timestampable: true
+            sluggable: true

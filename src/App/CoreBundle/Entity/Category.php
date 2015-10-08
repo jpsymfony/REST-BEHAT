@@ -40,7 +40,7 @@ class Category
      * @Serializer\Expose
      * @Assert\NotBlank
      * @Assert\Length(min=2, max=100)
-     * @Assert\Regex("/^[a-z]+$/")
+     * @Assert\Regex("/^[a-zA-Z ]+$/")
      */
     private $title;
 
@@ -54,15 +54,13 @@ class Category
      * @param string $title
      * @param string $slug
      */
-    public function __construct($title, $slug)
+    public function __construct($title)
     {
         $this->title = $title;
-        $this->slug = $slug;
     }
 
     public function update(Category $category)
     {
-        $this->slug = $category->slug;
         $this->title = $category->title;
     }
 

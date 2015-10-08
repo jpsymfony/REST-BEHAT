@@ -19,10 +19,7 @@
     </parameters>
     
     <services>
-        <service id="app_core.slugify" class="Cocur\Slugify\Slugify" />
-        
         <service id="app_core.category_manager" class="App\CoreBundle\Entity\Manager\CategoryManager">
-            <argument type="service" id="app_core.slugify"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
         
