@@ -23,4 +23,10 @@ class CategoryManager
         $this->em->persist($category);
         $this->em->flush();
     }
+
+    public function remove(Category $category)
+    {
+        $this->em->remove($category);
+        $this->em->flush();
+    }
 }

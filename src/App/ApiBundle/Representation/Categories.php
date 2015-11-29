@@ -6,6 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Pagerfanta\Pagerfanta;
 
 /**
+ * @Serializer\ExclusionPolicy("ALL")
  * @Serializer\XmlRoot("categories")
  */
 class Categories implements RepresentationInterface
@@ -24,7 +25,7 @@ class Categories implements RepresentationInterface
      */
     private $data;
 
-    public function __construct(Pagerfanta $data)
+    public function __construct(PagerFanta $data)
     {
         $this->data = $data;
 

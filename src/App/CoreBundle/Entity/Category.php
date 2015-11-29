@@ -40,7 +40,7 @@ class Category
      * @Serializer\Expose
      * @Assert\NotBlank
      * @Assert\Length(min=2, max=100)
-     * @Assert\Regex("/^[a-zA-Z ]+$/")
+     * @Assert\Regex("/^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s-]+$/")
      */
     private $title;
 
