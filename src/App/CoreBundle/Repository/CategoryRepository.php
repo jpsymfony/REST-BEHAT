@@ -23,7 +23,7 @@ class CategoryRepository extends AbstractRepository
         return $this->findBy([], [ 'title' => 'ASC' ]);
     }
     
-        /**
+    /**
      * @param string $term
      * @param string $order
      *
@@ -43,7 +43,6 @@ class CategoryRepository extends AbstractRepository
                 ->setParameter(1, '%' . $term . '%')
             ;
         }
-
         return $this->paginate($qb, $limit, $offset);
     }
 }

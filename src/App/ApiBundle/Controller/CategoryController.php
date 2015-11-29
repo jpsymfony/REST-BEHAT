@@ -37,7 +37,7 @@ class CategoryController extends FOSRestController
      * @Rest\QueryParam(
      *     name="limit",
      *     requirements="\d+",
-     *     default="20",
+     *     default="3",
      *     description="Max number of categories per page."
      * )
      * @Rest\QueryParam(
@@ -59,15 +59,14 @@ class CategoryController extends FOSRestController
     public function getCategoriesAction(ParamFetcherInterface $paramFetcher)
     {
         $repository = $this->get('app_core.repository.category');
-
+        
         $categories = $repository->search(
             $paramFetcher->get('keyword'), $paramFetcher->get('order'), $paramFetcher->get('limit'),
             $paramFetcher->get('offset')
         );
 
-        return $this
-                ->get('app_api.categories_view_handler')
-                ->handleRepresentation(new Categories($categories), $paramFetcher->all())
+        return $this->get('app_api.categories_view_handler')
+                     ->handleRepresentation(new Categories($categories), $paramFetcher->all())
         ;
     }
 
@@ -206,9 +205,7 @@ class CategoryController extends FOSRestController
      */
     public function deleteCategoryAction(Category $category)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($category);
-        $em->flush();
+        $this->get('app_core.category_manager')->remove($category);
 
         return $this->view('', Response::HTTP_NO_CONTENT);
     }
