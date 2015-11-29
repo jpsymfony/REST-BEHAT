@@ -12,12 +12,7 @@ class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $category1 = $manager->getRepository('AppCoreBundle:Category')->findOneBySlug('insolite');
-        $category2 = $manager->getRepository('AppCoreBundle:Category')->findOneBySlug('crypto');
-        $category3 = $manager->getRepository('AppCoreBundle:Category')->findOneBySlug('bad-practices');
-        $category4 = $manager->getRepository('AppCoreBundle:Category')->findOneBySlug('design-patterns');
-
-        $categories = array($category1, $category2, $category3, $category4);
+        $categories = $manager->getRepository('AppCoreBundle:Category')->findAll();
 
         foreach ($categories as $category) {
             for ($i = 1; $i < 30; $i++) {
