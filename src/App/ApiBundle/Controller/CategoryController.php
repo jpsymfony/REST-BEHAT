@@ -37,7 +37,7 @@ class CategoryController extends FOSRestController
      * @Rest\QueryParam(
      *     name="limit",
      *     requirements="\d+",
-     *     default="3",
+     *     default="20",
      *     description="Max number of categories per page."
      * )
      * @Rest\QueryParam(
@@ -59,7 +59,7 @@ class CategoryController extends FOSRestController
     public function getCategoriesAction(ParamFetcherInterface $paramFetcher)
     {
         $repository = $this->get('app_core.repository.category');
-        
+
         $categories = $repository->search(
             $paramFetcher->get('keyword'), $paramFetcher->get('order'), $paramFetcher->get('limit'),
             $paramFetcher->get('offset')
